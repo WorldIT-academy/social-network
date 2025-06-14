@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from sshtunnel import SSHTunnelForwarder
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -76,10 +77,31 @@ WSGI_APPLICATION = 'social_network_models.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# Настройка туннеля
+server = SSHTunnelForwarder(
+    ('ssh.pythonanywhere.com', 22),
+    ssh_username='worlditAcademy',
+    ssh_password='3919_Iron',  # Рекомендуется использовать ключ
+    remote_bind_address=('worlditAcademy.mysql.pythonanywhere-services.com', 3306)
+)
+
+server.start()
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'worlditAcademy$default',
+        'USER': 'worlditAcademy',
+        'PASSWORD': 'cXA&j:.sE,SZwJa$',
+        'HOST': '127.0.0.1',
+        'PORT': str(server.local_bind_port),
     }
 }
 

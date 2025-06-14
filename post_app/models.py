@@ -29,6 +29,8 @@ class Album(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     preview_image = models.ImageField(upload_to='images/album_previews', null=True, blank=True)
     images = models.ManyToManyField(Image, blank=True)
+    shown = models.BooleanField(default=True) # Чи відображається цей альбом
+    topic = models.ForeignKey('Tag', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
