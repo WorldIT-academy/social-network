@@ -30,3 +30,9 @@ class Friendship(models.Model):
         return f'Дружба між {self.profile1} та {self.profile2}'
     
 
+class VerificationCode(models.Model):
+    username = models.CharField(max_length=150)
+    code = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+
